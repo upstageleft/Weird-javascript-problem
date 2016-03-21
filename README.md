@@ -10,11 +10,12 @@ The second line of the table shows that the global value has changed when it sho
 cell of the matrix has been copied to a new variable, and that variable has been manipulated, but the result of that 
 manipulation is somehow copied back to both the global variable and the matrix variable!
 
-globVal initial value: 1,1 ←(should be constant)   —   globVar's scope: [object Window]   —   myObj: { oSrc: "1,1", oX: 2 }
+globVal initial value: 1,1 ←(should be constant) — globVar's scope: [object Window] — myObj: { oSrc: "1,1", oX: 2 }
 
-        | globVal[0] (global) |    Operation:                 | myVal[0] (local) | newVal (local) | map.see(1,1) (closure)
-Before:	|          1          | newVal = myVal[0] * myObj.oX  |          1       |       2        |         1,1
-After:	|          2          | myVal[0] = newVal             |          2       |       2	      |         2,1
+        |`globVal[0] (global)`|    Operation:                 |`myVal[0] (local)`|`newVal (local)`| map.see(1,1) (closure)
+--------|---------------------|-------------------------------|------------------|----------------|-------------------------
+Before:|1|newVal = myVal[0] * myObj.oX|1|2|1,1
+After:|2|myVal[0] = newVal|2|2|2,1
 
 Here is the code performing the operations, along with a helper function to pull values from the matrix and the object 
 containing the data value to be applied in the operations.
