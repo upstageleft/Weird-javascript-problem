@@ -45,19 +45,19 @@ Here are the onload function which initializes the global and the closure which 
 ```javascript
 CODE BLOCK B
 
-function init(){
-    globVal = mxGet('1,1'); // global declared here
-    that = this;
-    doStuff();
-}
- 
-map = (function(){
-    myHiddenMatrix = [ [ [0,0], [0,1], [0,2] ],
-                        [ [1,0], [1,1], [1,2] ],
-                       [ [2,0], [2,1], [2,2] ] ];
-    return {
-        pin: function( x, y, val ){ myHiddenMatrix[ x ][ y ] = val; },
-        see: function( x, y ){ return myHiddenMatrix[ x ][ y ]; }
-    }
-})();
+ 1 | function init(){
+ 2 |     globVal = mxGet('1,1'); // global declared here
+ 3 |     that = this;
+ 4 |     doStuff();
+ 5 | }
+ 6 |  
+ 7 | map = (function(){
+ 8 |     myHiddenMatrix = [ [ [0,0], [0,1], [0,2] ],
+ 9 |                         [ [1,0], [1,1], [1,2] ],
+10 |                        [ [2,0], [2,1], [2,2] ] ];
+11 |     return {
+12 |         pin: function( x, y, val ){ myHiddenMatrix[ x ][ y ] = val; },
+13 |         see: function( x, y ){ return myHiddenMatrix[ x ][ y ]; }
+14 |     }
+15 | })();
 ```	
