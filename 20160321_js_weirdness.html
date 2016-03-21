@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html><head><title>JavaScript Scoping Problem???</title><meta charset="utf-8"><script>
+
+function init(){
+	globVal = mxGet('1,1');
+	that = this;
+	doStuff();
+}
+
+map = (function(){
+	myHiddenMatrix = [	[ [0,0], [0,1], [0,2] ],	[ [1,0], [1,1], [1,2] ],	[ [2,0], [2,1], [2,2] ]		];
+	return {
+		pin: function( x, y, val ){ myHiddenMatrix[ x ][ y ] = val; },
+		see: function( x, y ){ return myHiddenMatrix[ x ][ y ]; }
+	}
+})();
+
+myObj = {
+	oSrc: '1,1',
+	oX: 2
+}
+
+function mxGet(xy){
+	var x_y = xy.split(',');
+	return map.see( x_y[0], x_y[1] );
+}
+
+function doStuff(){
+	var tbl = 'globVal initial value: <b>'+ globVal +'</b> &larr;(<span class="sm b">should be constant</span>) '+
+		'&nbsp; &mdash; &nbsp; globVar&#39;s scope: <b>'+ that + '</b> &nbsp; &mdash; &nbsp; myObj: {<b> oSrc: '+
+		'"'+myObj.oSrc+'", oX: '+myObj.oX+' </b>}<br>';
+	var myVal = mxGet( myObj.oSrc );
+	var newVal = myVal[0] * myObj.oX;
+	tbl += '<br><table border="1"><tr><th></th>'+
+		'<th> globVal[0] (global) </th>'+
+		'<th> Operation: </th>'+
+		'<th> myVal[0] (local) </th>'+
+		'<th> newVal (local) </th>'+
+		'<th> map.see(1,1) (closure) </th>'+
+	'</tr>';
+	tbl += '<tr><td>Before:</td>'+
+		'<td class="c">'+ globVal[0] +'</td>'+
+		'<td class="l"> newVal = myVal[0] * myObj.oX </td>'+
+		'<td class="c">'+ myVal[0] +'</td>'+
+		'<td class="c">'+ newVal +'</td>'+
+		'<td class="c">'+ map.see(1,1) +'</td>'+
+	'</tr>';
+	myVal[0] = newVal;
+	tbl += '<tr><td>After:</td>'+
+		'<td class="c">'+ globVal[0] +'</td>'+
+		'<td class="l"> myVal[0] = newVal </td>'+
+		'<td class="c">'+ myVal[0] +'</td>'+
+		'<td class="c">'+ newVal +'</td>'+
+		'<td class="c">'+ map.see(1,1) +'</td>'+
+		'</tr>';
+	document.getElementById('tbl').innerHTML = tbl+'</table>';
+}
+
+</script><style>
+	body { margin: 1em 4em; }
+	p { font-size: .9em; }
+	.b { font-weight: bold; }
+	.sm { font-variant: small-caps; font-family: serif; font-size: .75em; line-height: inherit; }
+	code { display: block; white-space: pre-wrap; background: black; padding: 10px;
+		color: #4f4; font-weight: bold; counter-reset: line; font-size: .9em; line-height: 1.3em; }
+	.fl { float: left; margin: 5px; }
+	.fl p { margin: 1em 20px; }
+	.c1 { width: 40%; }
+	.c2 { width: 55%; }
+	.cb { clear: both; }
+	#tbl { text-align: center; }
+	td { text-align: right; }
+	.c { text-align: center; }
+	.i { text-indent: 5%; }
+	.l { text-align: left; }
+	.r { position: relative; display: block; top: 50px; left: 0px; }
+	p.c { margin: 0 auto; }
+	table { margin: 0 auto; }
+	table,th,td { border-collapse: collapse; padding: 4px; }
+	code span:before {
+		counter-increment: line;
+		content: counter(line);
+		display: inline-block;
+		border-right: 1px solid #ddd;
+		padding: 0 .5em;
+		margin-right: .75em;
+		color: #888;
+	}
+</style></head><body onload="init()">
+<h2 class="i"> Possible scoping or referencing problem??? </h2>
+
+<p> In the table below, the first column reflects the value of a global variable populated by a value
+copied from a matrix array in a closure by means of a helper function. </p>
+
+<p> The second line of the table shows that the global value has changed when it should not have. The
+value of the specified cell of the matrix has been copied to a new variable, and that variable has been
+manipulated, but the result of that manipulation is somehow copied back to both the global variable
+and the matrix variable! </p>
+
+<p class="b"> <u>QUESTION</u>: How do I prevent the globals from being affected by operations in the local scope? </p>
+
+
+<p class="c"> <button class="r" onclick="doStuff()">Show Me Again</button> <div id="tbl"></div> </p>
+
+<div class="fl c1"><p> Here is the code performing the operations, along with a helper function to pull
+values from the matrix and the object containing the data value to be applied in the operations. </p>
+	<code>CODE BLOCK A<BR>
+ <span>function doStuff(){</span>
+ <span>    var myVal = mxGet( myObj.oSrc );</span>
+ <span>    var newVal = myVal[0] * myObj.oX;</span>
+ <span>    myVal[0] = newVal; // <a class="sm b">weirdness happens here!</a></span>
+ <span>}</span>
+ <span></span>
+ <span>function mxGet( xy ){</span>
+ <span>    var x_y = xy.split(',');</span>
+ <span>    return map.see( x_y[0], x_y[1] );</span>
+<span>}</span>
+<span></span>
+<span>myObj = {</span>
+<span>    oSrc: '1,1',</span>
+<span>    oX: 2</span>
+<span>}</span>
+	</code>
+</div>
+
+<div class="fl c2"><p> Here are the onload function which initializes the global and the closure which
+stores the matrix. <br><br></p>
+	<code>CODE BLOCK B<BR>
+ <span>function init(){</span>
+ <span>    globVal = mxGet('1,1'); // <a class="sm b">global declared here</a></span>
+ <span>    that = this;</span>
+ <span>    doStuff();</span>
+ <span>}</span>
+ <span></span>
+ <span>map = (function(){</span>
+ <span>    myHiddenMatrix = [ [ [0,0], [0,1], [0,2] ],</span>
+ <span>                       [ [1,0], [1,1], [1,2] ],</span>
+<span>                       [ [2,0], [2,1], [2,2] ] ];</span>
+<span>    return {</span>
+<span>        pin: function( x, y, val ){ myHiddenMatrix[ x ][ y ] = val; },</span>
+<span>        see: function( x, y ){ return myHiddenMatrix[ x ][ y ]; }</span>
+<span>    }</span>
+<span>})();</span>
+	</code>
+</div></body></html>
