@@ -20,9 +20,9 @@ After:|2|myVal[0] = newVal|2|2|2,1
 Here is the code performing the operations, along with a helper function to pull values from the matrix and the object 
 containing the data value to be applied in the operations.
 
+```javascript
 CODE BLOCK A
 
-```javascript
 function doStuff(){
     var myVal = mxGet( myObj.oSrc );
     var newVal = myVal[0] * myObj.oX;
@@ -42,9 +42,9 @@ myObj = {
 
 Here are the onload function which initializes the global and the closure which stores the matrix.
 
+```javascript
 CODE BLOCK B
 
-```javascript
 function init(){
     globVal = mxGet('1,1'); // global declared here
     that = this;
