@@ -22,35 +22,35 @@ containing the data value to be applied in the operations.
 
 CODE BLOCK A
 
- function doStuff(){
-     var myVal = mxGet( myObj.oSrc );
-     var newVal = myVal[0] * myObj.oX;
-     myVal[0] = newVal; // weirdness happens here!
- }
+`function doStuff(){
+    var myVal = mxGet( myObj.oSrc );
+    var newVal = myVal[0] * myObj.oX;
+    myVal[0] = newVal; // weirdness happens here!
+}
  
- function mxGet( xy ){
-     var x_y = xy.split(',');
-     return map.see( x_y[0], x_y[1] );
+function mxGet( xy ){
+    var x_y = xy.split(',');
+    return map.see( x_y[0], x_y[1] );
 }
 
 myObj = {
     oSrc: '1,1',
     oX: 2
 }
-	
+`	
 
 Here are the onload function which initializes the global and the closure which stores the matrix.
 
 CODE BLOCK B
 
- function init(){
-     globVal = mxGet('1,1'); // global declared here
-     that = this;
-     doStuff();
- }
+`function init(){
+    globVal = mxGet('1,1'); // global declared here
+    that = this;
+    doStuff();
+}
  
- map = (function(){
-     myHiddenMatrix = [ [ [0,0], [0,1], [0,2] ],
+map = (function(){
+    myHiddenMatrix = [ [ [0,0], [0,1], [0,2] ],
                         [ [1,0], [1,1], [1,2] ],
                        [ [2,0], [2,1], [2,2] ] ];
     return {
@@ -58,4 +58,4 @@ CODE BLOCK B
         see: function( x, y ){ return myHiddenMatrix[ x ][ y ]; }
     }
 })();
-	
+`	
