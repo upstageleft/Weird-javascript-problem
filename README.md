@@ -23,21 +23,21 @@ containing the data value to be applied in the operations.
 ```javascript
 CODE BLOCK A
 
-function doStuff(){
-    var myVal = mxGet( myObj.oSrc );
-    var newVal = myVal[0] * myObj.oX;
-    myVal[0] = newVal; // weirdness happens here!
-}
- 
-function mxGet( xy ){
-    var x_y = xy.split(',');
-    return map.see( x_y[0], x_y[1] );
-}
-
-myObj = {
-    oSrc: '1,1',
-    oX: 2
-}
+1. function doStuff(){
+2.     var myVal = mxGet( myObj.oSrc );
+3.     var newVal = myVal[0] * myObj.oX;
+4.     myVal[0] = newVal; // weirdness happens here!
+5. }
+6.  
+7. function mxGet( xy ){
+8.     var x_y = xy.split(',');
+9.     return map.see( x_y[0], x_y[1] );
+10. }
+11.
+12. myObj = {
+13.     oSrc: '1,1',
+14.     oX: 2
+15. }
 ```	
 
 Here are the onload function which initializes the global and the closure which stores the matrix.
