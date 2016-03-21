@@ -22,7 +22,8 @@ containing the data value to be applied in the operations.
 
 CODE BLOCK A
 
-`function doStuff(){
+```javascript
+function doStuff(){
     var myVal = mxGet( myObj.oSrc );
     var newVal = myVal[0] * myObj.oX;
     myVal[0] = newVal; // weirdness happens here!
@@ -37,13 +38,14 @@ myObj = {
     oSrc: '1,1',
     oX: 2
 }
-`	
+```	
 
 Here are the onload function which initializes the global and the closure which stores the matrix.
 
 CODE BLOCK B
 
-`function init(){
+```javascript
+function init(){
     globVal = mxGet('1,1'); // global declared here
     that = this;
     doStuff();
@@ -58,4 +60,4 @@ map = (function(){
         see: function( x, y ){ return myHiddenMatrix[ x ][ y ]; }
     }
 })();
-`	
+```	
